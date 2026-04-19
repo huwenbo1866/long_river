@@ -1,0 +1,831 @@
+[
+  {
+    "name": "datasetReader",
+    "createTime": "1",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "name": "TFDS",
+        "description": "使用TensorFlow的dataset模块创建数据集",
+        "type": "ModuleGroup",
+        "pipelineIndex": "1",
+        "params": [
+          {
+            "name": "images_dir",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "images_dir",
+            "description": "使用TensorFlow中的dataset模块从图片文件夹中读取数据，并创建数据集，效率较高",
+            "params": [
+              {
+                "setting": "path",
+                "required": "yes",
+                "type": "UserFolderPath",
+                "description": "用户传入的图片文件夹路径，该模块调用TensorFlow中的dataset模块进行数据集的创建，默认路径下的子文件夹会被当做图片的各个类别"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "shuffle_buffer_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认为3000"
+              },
+              {
+                "required": "yes",
+                "setting": "img_height",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的高度,默认为224"
+              },
+              {
+                "required": "yes",
+                "setting": "img_width",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的宽度，默认为224"
+              },
+              {
+                "required": "yes",
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "dataset自带的batch_size函数，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "take_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的skip方法，创建一个测试数据集，默认不调用该参数。如果已经存在测试数据集，则该数据集无效。"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "text_dir",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "text_dir",
+            "description": "使用TensorFlow中的dataset模块从文本文件夹中读取数据，并创建数据集，效率较高",
+            "params": [
+              {
+                "setting": "path",
+                "required": "yes",
+                "type": "UserFolderPath",
+                "description": "用户传入的文本文件夹路径，之后使用tf.dataset创建数据集，默认路径下的txt文件会被当做数据集的各个类别，并按行读取"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "one_hot_label",
+                "description": "是否将y变为one hot编码，默认为整数编码",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "shuffle_buffer_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认为50000"
+              },
+              {
+                "setting": "take_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的skip方法，创建一个测试数据集，默认不调用该参数。如果已经存在测试数据集，则该数据集无效。"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "csv_pandas_dir",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "csv_pandas_dir",
+            "description": "使用pandas从csv文件夹中的train.csv读取数据，然后使用tf.dataset模块进行转换",
+            "params": [
+              {
+                "setting": "path",
+                "description": "用户传入的文本文件夹路径",
+                "required": "yes",
+                "type": "UserFolderPath"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个csv文件分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "labels",
+                "required": "yes",
+                "description": "字符串，对应CSV文件中的预测列列名",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为128，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "shuffle_buffer_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认为3000"
+              },
+              {
+                "setting": "take_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的skip方法，创建一个测试数据集，默认不调用该参数。如果已经存在测试数据集，则该数据集无效。"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "numpy_reader",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "numpy_reader",
+            "description": "使用numpy加载npz数据，然后使用tf.dataset模块读取numpy数组创建数据集，默认标签应该为：X_train, X_test, y_train, y_test",
+            "params": [
+              {
+                "setting": "path",
+                "description": "用户传入的npz文件位置",
+                "required": "yes",
+                "type": "UserFilePath"
+              },
+              {
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "shuffle_buffer_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认不调用该参数"
+              }
+            ],
+            "setparams": {}
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "name": "ImageDataGenerator_Reader",
+        "description": "使用TensorFlow的ImageDataGenerator模块创建数据生成器，需要配合fit_generator方法进行训练，可以一边在CPU中处理数据，一边在GPU中训练神经网络。",
+        "type": "ModuleGroup",
+        "pipelineIndex": "1",
+        "params": [
+          {
+            "name": "flow_from_directory",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "flow_from_directory",
+            "description": "解析CSV文件夹中的csv文件，默认只读取train.csv文件",
+            "params": [
+              {
+                "setting": "path",
+                "required": "yes",
+                "type": "UserFolderPath",
+                "description": "用户传入的图片文件夹路径，默认路径下的子文件夹会被当做图片的各个类别"
+              },
+              {
+                "setting": "hasTest",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ],
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集"
+              },
+              {
+                "setting": "img_height",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的高度,默认128"
+              },
+              {
+                "setting": "img_width",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的宽度，默认为128"
+              },
+              {
+                "setting": "batch_size",
+                "required": "yes",
+                "type": "PositiveInteger"
+              },
+              {
+                "setting": "class_mode",
+                "description": "categorical:2D one-hot 标签;binary:1D 二进制标签;sparse:1D 整数标签;input:直接输入图像，主要用于自动编码器",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "categorical",
+                  "binary",
+                  "sparse",
+                  "input"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "网络结构",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "3",
+        "fun": "applications",
+        "type": "Module",
+        "params": [
+          {
+            "required": "yes",
+            "setting": "input_shape",
+            "type": "tuple",
+            "limit": "tuple"
+          },
+          {
+            "setting": "classes",
+            "required": "yes",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "net",
+            "required": "yes",
+            "type": "MultipleChoice",
+            "params": [
+              "VGG16",
+              "VGG19",
+              "ResNet50",
+              "InceptionResNetV2",
+              "Xception",
+              "MobileNet",
+              "MobileNetV2",
+              "DenseNet121",
+              "DenseNet169",
+              "DenseNet201",
+              "NASNetMobile",
+              "NASNetLarge",
+              "ResNet101",
+              "ResNet152",
+              "ResNet50V2",
+              "ResNet101V2",
+              "ResNet152V2"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "优化函数",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "fun": "SGD",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "momentum",
+            "type": "int",
+            "limit": "Non-negative"
+          },
+          {
+            "setting": "nesterov",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "RMSprop",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "rho",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "momentum",
+            "type": "int",
+            "limit": "Non-negative"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "centered",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Adam",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta1",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta2",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "amsgrad",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Adadelta",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "rho",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Adagrad",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "initial_accumulator_value",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Adamax",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta_1",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta_2",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Nadam",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta_1",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta_2",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Ftrl",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "learning_rate_power",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "initial_accumulator_value",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "l1_regularization_strength",
+            "type": "int",
+            "limit": "Non-negative"
+          },
+          {
+            "setting": "l2_regularization_strength",
+            "type": "int",
+            "limit": "Non-negative"
+          },
+          {
+            "setting": "l2_shrinkage_regularization_strength",
+            "type": "int",
+            "limit": "Non-negative"
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "损失函数",
+    "fun": "loss",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "5",
+        "fun": "Probabilistic losses",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "loss",
+            "type": "MultipleChoice",
+            "params": [
+              "BinaryCrossentropy",
+              "CategoricalCrossentropy",
+              "SparseCategoricalCrossentropy",
+              "Poisson",
+              "binary_crossentropy",
+              "categorical_crossentropy",
+              "sparse_categorical_crossentropy",
+              "poisson",
+              "KLDivergence",
+              "kl_divergence"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "pipelineIndex": "5",
+        "fun": "Regression losses",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "loss",
+            "type": "MultipleChoice",
+            "params": [
+              "MeanSquaredError",
+              "MeanAbsoluteError",
+              "MeanAbsolutePercentageError",
+              "MeanSquaredLogarithmicError",
+              "CosineSimilarity",
+              "mean_squared_error",
+              "mean_absolute_error",
+              "mean_absolute_percentage_error",
+              "mean_squared_logarithmic_error",
+              "cosine_similarity",
+              "Huber",
+              "LogCosh"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "pipelineIndex": "5",
+        "fun": "Hinge losses for maximum-margin classification",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "loss",
+            "type": "MultipleChoice",
+            "params": [
+              "Hinge",
+              "SquaredHinge",
+              "CategoricalHinge",
+              "hinge",
+              "squared_hinge",
+              "categorical_hinge"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "评价函数",
+    "fun": "metrics",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "6",
+        "fun": "metrics",
+        "type": "Module",
+        "params": [
+          {
+            "required": "yes",
+            "setting": "metrics",
+            "type": "MultipleChoice",
+            "params": [
+              "accuracy",
+              "binary_accuracy",
+              "categorical_accuracy",
+              "top_k_categorical_accuracy",
+              "sparse_top_k_categorical_accuracy",
+              "binary_crossentropy",
+              "categorical_crossentropy",
+              "sparse_categorical_crossentropy",
+              "kullback_leibler_divergence",
+              "poisson",
+              "mean_squared_error",
+              "root_mean_squared_error",
+              "mean_absolute_error",
+              "mean_absolute_percentage_error",
+              "mean_squared_logarithmic_error",
+              "cosine_similarity",
+              "logcosh",
+              "hinge",
+              "squared_hinge",
+              "categorical_hinge"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "训练函数",
+    "fun": "fit",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "7",
+        "fun": "fit",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "batch_size",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epochs",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "steps_per_epoch",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "validation_split",
+            "description": "注意数据的兼容性.当输入为numpy矩阵等时,方可使用该参数.",
+            "type": "int",
+            "limit": "bet01"
+          },
+          {
+            "setting": "shuffle",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "pipelineIndex": "7",
+        "fun": "fit_generator",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "batch_size",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epochs",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "steps_per_epoch",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "shuffle",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "模型评估",
+    "fun": "evaluate",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "8",
+        "fun": "evaluate",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "batch_size",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "模型保存",
+    "fun": "save",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "9",
+        "fun": "save",
+        "params": [
+          {
+            "required": "yes",
+            "setting": "path",
+            "type": "UserFolderPath",
+            "description": "模型保存的文件地址"
+          },
+          {
+            "setting": "overwrite",
+            "required": "no",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "setting": "name",
+            "description": "模型的名字，当save_format=h5时，将使用该参数",
+            "required": "no",
+            "type": "Arbitrary"
+          },
+          {
+            "setting": "include_optimizer",
+            "required": "no",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "setting": "save_format",
+            "type": "MultipleChoice",
+            "params": [
+              "tf",
+              "h5"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

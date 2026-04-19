@@ -1,0 +1,1161 @@
+[
+  {
+    "name": "datasetReader",
+    "createTime": "1",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "name": "TFDS",
+        "description": "使用tensorflow的dataset模块创建数据集",
+        "type": "ModuleGroup",
+        "pipelineIndex": "1",
+        "params": [
+          {
+            "name": "images_dir",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "images_dir",
+            "description": "使用tensorflow中的dataset模块从图片文件夹中读取数据，并创建数据集，效率较高",
+            "params": [
+              {
+                "setting": "path",
+                "required": "yes",
+                "type": "UserFolderPath",
+                "description": "用户传入的图片文件夹路径，该模块调用tensorflow中的dataset模块进行数据集的创建，默认路径下的子文件夹会被当做图片的各个类别"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "shuffle_buffer_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认为3000"
+              },
+              {
+                "required": "yes",
+                "setting": "img_height",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的高度,默认为224"
+              },
+              {
+                "required": "yes",
+                "setting": "img_width",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的宽度，默认为224"
+              },
+              {
+                "required": "yes",
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "dataset自带的batch_size函数，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "take_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的skip方法，创建一个测试数据集，默认不调用该参数。如果已经存在测试数据集，则该数据集无效。"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "text_dir",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "text_dir",
+            "description": "使用tensorflow中的dataset模块从文本文件夹中读取数据，并创建数据集，效率较高",
+            "params": [
+              {
+                "setting": "path",
+                "required": "yes",
+                "type": "UserFolderPath",
+                "description": "用户传入的文本文件夹路径，之后使用tf.dataset创建数据集，默认路径下的txt文件会被当做数据集的各个类别，并按行读取"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "one_hot_label",
+                "description": "是否将y变为one hot编码，默认为整数编码",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "shuffle_buffer_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认为50000"
+              },
+              {
+                "setting": "take_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的skip方法，创建一个测试数据集，默认不调用该参数。如果已经存在测试数据集，则该数据集无效。"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "csv_pandas_dir",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "csv_pandas_dir",
+            "description": "使用pandas从csv文件夹中的train.csv读取数据，然后使用tf.dataset模块进行转换",
+            "params": [
+              {
+                "setting": "path",
+                "description": "用户传入的文本文件夹路径",
+                "required": "yes",
+                "type": "UserFolderPath"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个csv文件分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "labels",
+                "required": "yes",
+                "description": "字符串，对应CSV文件中的预测列列名",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为128，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "shuffle_buffer_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认为3000"
+              },
+              {
+                "setting": "take_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的skip方法，创建一个测试数据集，默认不调用该参数。如果已经存在测试数据集，则该数据集无效。"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "numpy_reader",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "numpy_reader",
+            "description": "使用numpy加载npz数据，然后使用tf.dataset模块读取numpy数组创建数据集，默认标签应该为：X_train, X_test, y_train, y_test",
+            "params": [
+              {
+                "setting": "path",
+                "description": "用户传入的npz文件位置",
+                "required": "yes",
+                "type": "UserFilePath"
+              },
+              {
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "shuffle_buffer_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认不调用该参数"
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "Parser",
+        "description": "文件路径解析器，根据用户输入，创建文件路径，并不会实际生成数据集，适用于一些自带数据集创建功能的模块",
+        "type": "ModuleGroup",
+        "pipelineIndex": "1",
+        "params": [
+          {
+            "name": "csv_dir",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "csv_dir",
+            "description": "解析CSV文件夹中的csv文件，默认只读取train.csv文件",
+            "params": [
+              {
+                "setting": "path",
+                "description": "用户传入的CSV文件位置",
+                "required": "yes",
+                "type": "UserFilePath"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个csv文件分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "图像",
+        "fun": "ImageDataGenerator_Reader",
+        "description": "使用tensorflow的ImageDataGenerator模块创建数据生成器，需要配合fit_generator方法进行训练，可以一边在CPU中处理数据，一边在GPU中训练神经网络。",
+        "type": "ModuleGroup",
+        "pipelineIndex": "1",
+        "params": [
+          {
+            "name": "flow_from_directory",
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "flow_from_directory",
+            "description": "解析CSV文件夹中的csv文件，默认只读取train.csv文件",
+            "params": [
+              {
+                "setting": "path",
+                "required": "yes",
+                "type": "UserFolderPath",
+                "description": "用户传入的图片文件夹路径，默认路径下的子文件夹会被当做图片的各个类别"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "img_height",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的高度,默认128"
+              },
+              {
+                "setting": "img_width",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的宽度，默认为128"
+              },
+              {
+                "setting": "batch_size",
+                "required": "yes",
+                "type": "PositiveInteger"
+              },
+              {
+                "setting": "class_mode",
+                "description": "categorical:2D one-hot 标签;binary:1D 二进制标签;sparse:1D 整数标签;input:直接输入图像，主要用于自动编码器",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "categorical",
+                  "binary",
+                  "sparse",
+                  "input"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "模型",
+    "fun": "model",
+    "createTime": "3",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "name": "Images",
+        "description": "有关图像的自动化机器学习算法",
+        "type": "ModuleGroup",
+        "pipelineIndex": "3",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "enas_images_classification",
+            "description": "基于enas的文本分类算法，读取数据为TFDS，y需要进行one hot编码",
+            "params": [
+              {
+                "setting": "loss",
+                "description": "损失函数，默认为binary_crossentropy或categorical_crossentropy，选择时注意该函数是否适用于分类/回归任务",
+                "type": "MultipleChoice",
+                "params": [
+                  "mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "squared_hinge",
+                  "hinge",
+                  "categorical_hinge",
+                  "logcosh",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "binary_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "cosine_proximity"
+                ]
+              },
+              {
+                "setting": "metrics",
+                "description": "评价函数，默认为正确率:accuracy",
+                "type": "MultipleChoice",
+                "params": [
+                  "accuracy",
+                  "binary_accuracy",
+                  "categorical_accuracy",
+                  "top_k_categorical_accuracy",
+                  "sparse_top_k_categorical_accuracy",
+                  "binary_crossentropy",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "mean_squared_error",
+                  "root_mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "cosine_similarity",
+                  "logcosh",
+                  "hinge",
+                  "squared_hinge",
+                  "categorical_hinge"
+                ]
+              },
+              {
+                "setting": "max_trials",
+                "description": "同时进行建模的数量，默认为100，也就是同时建立100个模型进行尝试",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "overwrite",
+                "description": "是否覆盖之前的项目，默认为True，如果为False，则重新加载现在已经存在的项目",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "seed",
+                "description": "随机数种子",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "validation_split",
+                "description": "验证数据集的分割比例，如果存在验证数据集，该参数将被覆盖，默认为0.2",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "validation_data",
+                "description": "是否设置验证数据集,如果设置，参数validation_split将失效",
+                "type": "MultipleChoice",
+                "required": "yes",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "epochs",
+                "description": "训练次数",
+                "type": "int",
+                "limit": "PositiveInteger"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "enas_images_regression",
+            "description": "基于enas的文本回归算法，读取数据为TFDS，传入数据y值需要为one hot编码",
+            "params": [
+              {
+                "setting": "loss",
+                "description": "损失函数，默认为mean_squared_error，选择时注意该函数是否适用于分类/回归任务",
+                "type": "MultipleChoice",
+                "params": [
+                  "mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "squared_hinge",
+                  "hinge",
+                  "categorical_hinge",
+                  "logcosh",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "binary_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "cosine_proximity"
+                ]
+              },
+              {
+                "setting": "metrics",
+                "description": "评价函数，默认为正确率:mean_squared_error",
+                "type": "MultipleChoice",
+                "params": [
+                  "accuracy",
+                  "binary_accuracy",
+                  "categorical_accuracy",
+                  "top_k_categorical_accuracy",
+                  "sparse_top_k_categorical_accuracy",
+                  "binary_crossentropy",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "mean_squared_error",
+                  "root_mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "cosine_similarity",
+                  "logcosh",
+                  "hinge",
+                  "squared_hinge",
+                  "categorical_hinge"
+                ]
+              },
+              {
+                "setting": "max_trials",
+                "description": "同时进行建模的数量，默认为100，也就是同时建立100个模型进行尝试",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "overwrite",
+                "description": "是否覆盖之前的项目，默认为True，如果为False，则重新加载现在已经存在的项目",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "seed",
+                "description": "随机数种子",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "validation_split",
+                "description": "验证数据集的分割比例，如果存在验证数据集，该参数将被覆盖，默认为0.2",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "validation_data",
+                "description": "是否设置验证数据集,如果设置，参数validation_split将失效",
+                "type": "MultipleChoice",
+                "required": "yes",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "epochs",
+                "description": "训练次数",
+                "type": "int",
+                "limit": "PositiveInteger"
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "文本",
+        "fun": "Text",
+        "description": "有关文本的自动化机器学习算法",
+        "type": "ModuleGroup",
+        "pipelineIndex": "3",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "enas_text_classification",
+            "description": "基于enas的文本分类算法，读取数据为TFDS，y需要进行one hot编码",
+            "params": [
+              {
+                "setting": "loss",
+                "description": "损失函数，默认为binary_crossentropy或categorical_crossentropy，选择时注意该函数是否适用于分类/回归任务",
+                "type": "MultipleChoice",
+                "params": [
+                  "mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "squared_hinge",
+                  "hinge",
+                  "categorical_hinge",
+                  "logcosh",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "binary_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "cosine_proximity"
+                ]
+              },
+              {
+                "setting": "metrics",
+                "description": "评价函数，默认为正确率:accuracy",
+                "type": "MultipleChoice",
+                "params": [
+                  "accuracy",
+                  "binary_accuracy",
+                  "categorical_accuracy",
+                  "top_k_categorical_accuracy",
+                  "sparse_top_k_categorical_accuracy",
+                  "binary_crossentropy",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "mean_squared_error",
+                  "root_mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "cosine_similarity",
+                  "logcosh",
+                  "hinge",
+                  "squared_hinge",
+                  "categorical_hinge"
+                ]
+              },
+              {
+                "setting": "max_trials",
+                "description": "同时进行建模的数量，默认为100，也就是同时建立100个模型进行尝试",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "overwrite",
+                "description": "是否覆盖之前的项目，默认为True，如果为False，则重新加载现在已经存在的项目",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "seed",
+                "description": "随机数种子",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "validation_split",
+                "description": "验证数据集的分割比例，如果存在验证数据集，该参数将被覆盖，默认为0.2",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "validation_data",
+                "description": "是否设置验证数据集,如果设置，参数validation_split将失效",
+                "type": "MultipleChoice",
+                "required": "yes",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "epochs",
+                "description": "训练次数",
+                "type": "int",
+                "limit": "PositiveInteger"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "enas_text_regression",
+            "description": "基于enas的文本回归算法，读取数据为TFDS，传入数据y值需要为one hot编码",
+            "params": [
+              {
+                "setting": "loss",
+                "description": "损失函数，默认为mean_squared_error，选择时注意该函数是否适用于分类/回归任务",
+                "type": "MultipleChoice",
+                "params": [
+                  "mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "squared_hinge",
+                  "hinge",
+                  "categorical_hinge",
+                  "logcosh",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "binary_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "cosine_proximity"
+                ]
+              },
+              {
+                "setting": "metrics",
+                "description": "评价函数，默认为正确率:mean_squared_error",
+                "type": "MultipleChoice",
+                "params": [
+                  "accuracy",
+                  "binary_accuracy",
+                  "categorical_accuracy",
+                  "top_k_categorical_accuracy",
+                  "sparse_top_k_categorical_accuracy",
+                  "binary_crossentropy",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "mean_squared_error",
+                  "root_mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "cosine_similarity",
+                  "logcosh",
+                  "hinge",
+                  "squared_hinge",
+                  "categorical_hinge"
+                ]
+              },
+              {
+                "setting": "max_trials",
+                "description": "同时进行建模的数量，默认为100，也就是同时建立100个模型进行尝试",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "overwrite",
+                "description": "是否覆盖之前的项目，默认为True，如果为False，则重新加载现在已经存在的项目",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "seed",
+                "description": "随机数种子",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "validation_split",
+                "description": "验证数据集的分割比例，如果存在验证数据集，该参数将被覆盖，默认为0.2",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "validation_data",
+                "description": "是否设置验证数据集,如果设置，参数validation_split将失效",
+                "type": "MultipleChoice",
+                "required": "yes",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "epochs",
+                "description": "训练次数",
+                "type": "int",
+                "limit": "PositiveInteger"
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "结构化数据",
+        "fun": "Structured Data",
+        "description": "有关结构化数据的自动化机器学习算法",
+        "type": "ModuleGroup",
+        "pipelineIndex": "3",
+        "params": [
+          {
+            "name": "enas_structured_data_classification",
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "enas_structured_data_classification",
+            "description": "基于enas的结构化数据分类算法，读取数据为CSV文件，需要配合解析器：Parser使用",
+            "params": [
+              {
+                "setting": "loss",
+                "description": "损失函数，默认为binary_crossentropy或categorical_crossentropy，选择时注意该函数是否适用于实际数据",
+                "type": "MultipleChoice",
+                "params": [
+                  "mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "squared_hinge",
+                  "hinge",
+                  "categorical_hinge",
+                  "logcosh",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "binary_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "cosine_proximity"
+                ]
+              },
+              {
+                "setting": "metrics",
+                "description": "评价函数，默认为正确率:accuracy",
+                "type": "MultipleChoice",
+                "params": [
+                  "accuracy",
+                  "binary_accuracy",
+                  "categorical_accuracy",
+                  "top_k_categorical_accuracy",
+                  "sparse_top_k_categorical_accuracy",
+                  "binary_crossentropy",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "mean_squared_error",
+                  "root_mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "cosine_similarity",
+                  "logcosh",
+                  "hinge",
+                  "squared_hinge",
+                  "categorical_hinge"
+                ]
+              },
+              {
+                "setting": "max_trials",
+                "description": "同时进行建模的数量，默认为100，也就是同时建立100个模型进行尝试",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "overwrite",
+                "description": "是否覆盖之前的项目，默认为True，如果为False，则重新加载现在已经存在的项目",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "seed",
+                "description": "随机数种子",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "y",
+                "description": "字符串，对应CSV文件中的预测列列名",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "validation_split",
+                "description": "验证数据集的分割比例，如果存在验证数据集，该参数将被覆盖，默认为0.2",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "validation_data",
+                "description": "是否设置验证数据集,如果设置，参数validation_split将失效",
+                "type": "MultipleChoice",
+                "required": "yes",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "epochs",
+                "description": "训练次数",
+                "type": "int",
+                "limit": "PositiveInteger"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "enas_structured_data_regression",
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "enas_structured_data_regression",
+            "description": "基于enas的结构化数据回归算法，读取数据为CSV文件，需要配合解析器：Parser使用",
+            "params": [
+              {
+                "setting": "loss",
+                "description": "损失函数，默认为mean_squared_error，选择时注意该函数是否适用于实际数据",
+                "type": "MultipleChoice",
+                "params": [
+                  "mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "squared_hinge",
+                  "hinge",
+                  "categorical_hinge",
+                  "logcosh",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "binary_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "cosine_proximity"
+                ]
+              },
+              {
+                "setting": "metrics",
+                "description": "评价函数，默认为正确率:mean_squared_error",
+                "type": "MultipleChoice",
+                "params": [
+                  "accuracy",
+                  "binary_accuracy",
+                  "categorical_accuracy",
+                  "top_k_categorical_accuracy",
+                  "sparse_top_k_categorical_accuracy",
+                  "binary_crossentropy",
+                  "categorical_crossentropy",
+                  "sparse_categorical_crossentropy",
+                  "kullback_leibler_divergence",
+                  "poisson",
+                  "mean_squared_error",
+                  "root_mean_squared_error",
+                  "mean_absolute_error",
+                  "mean_absolute_percentage_error",
+                  "mean_squared_logarithmic_error",
+                  "cosine_similarity",
+                  "logcosh",
+                  "hinge",
+                  "squared_hinge",
+                  "100"
+                ]
+              },
+              {
+                "setting": "max_trials",
+                "description": "同时进行建模的数量，默认为100，也就是同时建立100个模型进行尝试",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "overwrite",
+                "description": "是否覆盖之前的项目，默认为True，如果为False，则重新加载现在已经存在的项目",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "seed",
+                "description": "随机数种子",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "y",
+                "description": "字符串，对应CSV文件中的预测列列名",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "validation_split",
+                "description": "验证数据集的分割比例，如果存在验证数据集，该参数将被覆盖，默认为0.2",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "validation_data",
+                "description": "是否设置验证数据集,如果设置，参数validation_split将失效",
+                "type": "MultipleChoice",
+                "required": "yes",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "epochs",
+                "description": "训练次数",
+                "type": "int",
+                "limit": "PositiveInteger"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "TPOT_structured_data_classification",
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "TPOTClassifier",
+            "description": "基于TPOT的结构化数据分类算法算法，读取数据为CSV文件，需要配合解析器：Parser使用",
+            "params": [
+              {
+                "setting": "labels",
+                "required": "yes",
+                "description": "字符串，对应CSV文件中的预测列列名",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "test_size",
+                "description": "分割数据集，如果存在测试数据集，那么该参数将失效，默认为0.2",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "dataset_split_random_state",
+                "description": "数据分割的随机种子，默认为42",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "generations",
+                "description": "遗传算法迭代的次数，默认100",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "population_size",
+                "description": "每代保留的个体数，默认20",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "cv",
+                "description": "交叉验证的折数，默认5",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "cv_split_random_state",
+                "description": "交叉验证的随机种子，默认为None",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "early_stop",
+                "description": "早停代数，默认为None",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "n_jobs",
+                "description": "使用CPU数量，-1表示全部，默认为-2,表示除一个CPU外全部使用。使用全部线程可能对可视化编程的监控线程造成一定影响。",
+                "type": "int",
+                "limit": "Integer"
+              },
+              {
+                "setting": "scoring",
+                "description": "评价标准，默认为accuracy",
+                "type": "MultipleChoice",
+                "params": [
+                  "accuracy",
+                  "adjusted_rand_score",
+                  "average_precision",
+                  "balanced_accuracy",
+                  "f1",
+                  "f1_macro",
+                  "f1_micro",
+                  "f1_samples",
+                  "f1_weighted",
+                  "neg_log_loss",
+                  "precision",
+                  "roc_auc",
+                  "roc_auc_ovr",
+                  "roc_auc_ovo",
+                  "roc_auc_ovr_weighted",
+                  "roc_auc_ovo_weighted"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "name": "TPOT_structured_data_regression",
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "TPOTRegressor",
+            "description": "基于TPOT的结构化数据分类算法算法，读取数据为CSV文件，需要配合解析器：Parser使用",
+            "params": [
+              {
+                "setting": "labels",
+                "description": "字符串，对应CSV文件中的预测列列名",
+                "type": "Arbitrary",
+                "required": "yes"
+              },
+              {
+                "setting": "test_size",
+                "description": "分割数据集，如果存在测试数据集，那么该参数将失效",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "dataset_split_random_state",
+                "description": "数据分割的随机种子",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "generations",
+                "description": "遗传算法迭代的次数，默认100",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "population_size",
+                "description": "每代保留的个体数，默认20",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "cv",
+                "description": "交叉验证的折数，默认5",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "cv_split_random_state",
+                "description": "交叉验证的随机种子，默认为None",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "early_stop",
+                "description": "早停代数，默认为None",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "n_jobs",
+                "description": "使用CPU数量，-1表示全部，默认为-2,表示除一个CPU外全部使用。使用全部线程可能对可视化编程的监控线程造成一定影响。",
+                "type": "int",
+                "limit": "Integer"
+              },
+              {
+                "setting": "scoring",
+                "description": "评价标准，默认为neg_mean_squared_error",
+                "type": "MultipleChoice",
+                "params": [
+                  "neg_median_absolute_error",
+                  "neg_mean_absolute_error",
+                  "neg_mean_squared_error",
+                  "r2"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "评估函数",
+    "fun": "evaluate",
+    "description": "模型评估，当存在测试数据集时，将使用测试数据集进行评估，否则将使用训练数据集进行评估",
+    "createTime": "4",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "fun": "evaluate",
+        "setting": "evaluate",
+        "type": "Module",
+        "params": []
+      }
+    ]
+  },
+  {
+    "name": "模型保存",
+    "fun": "save",
+    "description": "模型保存，TPOT则会导出代码",
+    "createTime": "5",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "fun": "save",
+        "setting": "save",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "filepath",
+            "description": "子文件夹或模型名字，用于保存模型；基于TPOT的自动机器学习将导出为py文件，并使下一个参数无效",
+            "required": "yes",
+            "type": "Arbitrary"
+          },
+          {
+            "setting": "save_format",
+            "description": "模型存储格式,如果是h5，模型将保存为 filepath.h5，如果是tf，则将创建子文件夹filepath",
+            "type": "MultipleChoice",
+            "params": [
+              "tf",
+              "h5"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  }
+]

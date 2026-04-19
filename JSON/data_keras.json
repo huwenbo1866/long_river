@@ -1,0 +1,2814 @@
+[
+  {
+    "name": "datasetReader",
+    "createTime": "1",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "name": "TFDS",
+        "description": "使用tensorflow的dataset模块创建数据集",
+        "type": "ModuleGroup",
+        "pipelineIndex": "1",
+        "params": [
+          {
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "images_dir",
+            "description": "使用tensorflow中的dataset模块从图片文件夹中读取数据，并创建数据集，效率较高",
+            "params": [
+              {
+                "setting": "path",
+                "required": "yes",
+                "type": "UserFolderPath",
+                "description": "用户传入的图片文件夹路径，该模块调用tensorflow中的dataset模块进行数据集的创建，默认路径下的子文件夹会被当做图片的各个类别"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ],
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集"
+              },
+              {
+                "required": "yes",
+                "setting": "img_height",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的高度"
+              },
+              {
+                "required": "yes",
+                "setting": "img_width",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "对读取的图片进行大小变化，height为转换后的宽度"
+              },
+              {
+                "required": "yes",
+                "setting": "batch_size",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "dataset自带的batch_size函数，默认为64，建议根据实际配置进行调整"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "text_dir",
+            "description": "使用tensorflow中的dataset模块从文本文件夹中读取数据，并创建数据集，效率较高",
+            "params": [
+              {
+                "setting": "path",
+                "required": "yes",
+                "type": "UserFolderPath",
+                "description": "用户传入的文本文件夹路径，之后使用tf.dataset创建数据集，默认路径下的txt文件会被当做数据集的各个类别，并按行读取"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个文件夹分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "BATCH_SIZE",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "SHUFFLE_BUFFER_SIZE",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认不调用该参数"
+              },
+              {
+                "setting": "TAKE_SIZE",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的skip方法，创建一个测试数据集，默认不调用该参数"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "csv_pandas_dir",
+            "description": "使用pandas从csv文件夹中的train.csv读取数据，然后使用tf.dataset模块进行转换",
+            "params": [
+              {
+                "setting": "path",
+                "description": "用户传入的文本文件夹路径",
+                "required": "yes",
+                "type": "UserFolderPath"
+              },
+              {
+                "setting": "hasTest",
+                "description": "是否存在测试数据集，如果该参数存在，则从用户路径下的train，test两个csv文件分别创建两个数据集",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "BATCH_SIZE",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "SHUFFLE_BUFFER_SIZE",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认不调用该参数"
+              },
+              {
+                "setting": "TAKE_SIZE",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的skip方法，创建一个测试数据集，默认不调用该参数"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "numpy",
+            "description": "使用numpy加载npz数据，然后使用tf.dataset模块读取numpy数组创建数据集",
+            "params": [
+              {
+                "setting": "path",
+                "description": "用户传入的npz文件位置",
+                "required": "yes",
+                "type": "UserFilePath"
+              },
+              {
+                "setting": "BATCH_SIZE",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "batch的大小，默认为64，建议根据实际配置进行调整"
+              },
+              {
+                "setting": "SHUFFLE_BUFFER_SIZE",
+                "type": "int",
+                "limit": "PositiveInteger",
+                "description": "当该参数存在时，会调用dataset中的shuffle方法，默认不调用该参数"
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "ImageDataGenerator",
+        "description": "使用tensorflow的ImageDataGenerator模块创建数据生成器，需要配合fit_generator方法进行训练，可以一边在CPU中处理数据，一边在GPU中训练神经网络。",
+        "type": "ModuleGroup",
+        "pipelineIndex": "1",
+        "params": [
+          {
+            "pipelineIndex": "1",
+            "type": "Module",
+            "fun": "flow_from_directory",
+            "description": "解析CSV文件夹中的csv文件，默认只读取train.csv文件",
+            "params": [
+              {
+                "setting": "target_size",
+                "required": "yes",
+                "type": "IntegerTuple2"
+              },
+              {
+                "setting": "batch_size",
+                "required": "yes",
+                "type": "PositiveInteger"
+              },
+              {
+                "setting": "class_mode",
+                "description": "categorical:2D one-hot 标签;binary:1D 二进制标签;sparse:1D 整数标签;input:直接输入图像，主要用于自动编码器",
+                "required": "yes",
+                "type": "MultipleChoice",
+                "params": [
+                  "categorical",
+                  "binary",
+                  "sparse",
+                  "input"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "网络结构",
+    "createTime": "1",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "3",
+        "fun": "Dense",
+        "type": "Module",
+        "params": [
+          {
+            "required": "yes",
+            "setting": "units",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "activation",
+            "type": "MultipleChoice",
+            "params": [
+              "deserialize",
+              "elu",
+              "exponential",
+              "get",
+              "hard_sigmoid",
+              "linear",
+              "relu",
+              "selu",
+              "serialize",
+              "sigmoid",
+              "softmax",
+              "softplus",
+              "softsign",
+              "swish",
+              "tanh"
+            ]
+          },
+          {
+            "setting": "use_bias",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "name": "卷积神经元",
+        "type": "ModuleGroup",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "Conv1D",
+            "params": [
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple"
+              },
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "causal",
+                  "same"
+                ]
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Conv2D",
+            "type": "Module",
+            "params": [
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple"
+              },
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "IntegerTuple2"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple2"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Conv3D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple3"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple3"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Conv2DTranspose",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple2"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              },
+              {
+                "setting": "output_padding",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Conv3DTranspose",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple3"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              },
+              {
+                "setting": "output_padding",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "SeparableConv1D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same",
+                  "causal"
+                ]
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "SeparableConv2D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple2"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "DepthwiseConv2D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "IntegerTuple2",
+                "description": "一个正整数,或者两个正整数的元组或列表,如(2,2)"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple2"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "池化神经元",
+        "type": "ModuleGroup",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "MaxPooling1D",
+            "description": "该函数具体解释请参考API: https://keras.io/api/layers/pooling_layers/max_pooling1d/",
+            "params": [
+              {
+                "setting": "pool_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "strides",
+                "type": "int",
+                "limit": "PositiveInteger"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "MaxPooling2D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/max_pooling2d/",
+            "params": [
+              {
+                "setting": "pool_size",
+                "type": "IntegerTuple2",
+                "description": "一个正整数,或者两个正整数的元组或列表,如(2,2),默认:(2,2)"
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple2",
+                "description": "一个正整数,或者两个正整数的元组或列表,如(2,2)"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "MaxPooling3D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/max_pooling3d/",
+            "params": [
+              {
+                "setting": "pool_size",
+                "type": "int",
+                "limit": "IntegerTuple3",
+                "description": "一个正整数,或者三个正整数的元组或列表,如(2,2,2)"
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple3"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "AveragePooling1D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/average_pooling1d/",
+            "params": [
+              {
+                "setting": "pool_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "strides",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "AveragePooling2D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/average_pooling2d/",
+            "params": [
+              {
+                "setting": "pool_size",
+                "type": "IntegerTuple2",
+                "description": "一个正整数,或者两个正整数的元组或列表,如(2,2),默认:(2,2)"
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple2",
+                "description": "一个正整数,或者两个正整数的元组或列表,如(2,2)"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "AveragePooling3D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/average_pooling3d/",
+            "params": [
+              {
+                "setting": "pool_size",
+                "limit": "IntegerTuple3",
+                "description": "一个正整数,或者三个正整数的元组或列表,如(2,2,2);默认(2,2,2)"
+              },
+              {
+                "setting": "strides",
+                "limit": "IntegerTuple3",
+                "description": "一个正整数,或者三个正整数的元组或列表,如(2,2,2)"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "GlobalMaxPooling1D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/global_max_pooling1d/",
+            "params": [
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_last",
+                  "channels_first"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "GlobalMaxPooling2D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/global_max_pooling2d/",
+            "params": [
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_last",
+                  "channels_first"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "GlobalMaxPooling3D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/global_max_pooling3d/",
+            "params": [
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_last",
+                  "channels_first"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "GlobalAveragePooling1D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/global_average_pooling1d/",
+            "params": [
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_last",
+                  "channels_first"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "GlobalAveragePooling2D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/global_average_pooling2d/",
+            "params": [
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_last",
+                  "channels_first"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "GlobalAveragePooling3D",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/pooling_layers/global_average_pooling3d/",
+            "params": [
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_last",
+                  "channels_first"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "循环神经元",
+        "type": "ModuleGroup",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "fun": "LSTM",
+            "type": "Module",
+            "description": "该函数具体解释请参考API://https://keras.io/api/layers/recurrent_layers/lstm/",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "units",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "recurrent_activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "unit_forget_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "required": "yes",
+                "setting": "dropout",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "required": "yes",
+                "setting": "recurrent_dropout",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "return_sequences",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "return_state",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "go_backwards",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "stateful",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "time_major",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "unroll",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "GRU",
+            "type": "Module",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/recurrent_layers/lstm/",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "units",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "recurrent_activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "required": "yes",
+                "setting": "dropout",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "required": "yes",
+                "setting": "recurrent_dropout",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "implementation",
+                "type": "MultipleChoice",
+                "params": [
+                  "1",
+                  "2"
+                ]
+              },
+              {
+                "setting": "return_sequences",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "return_state",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "go_backwards",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "stateful",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "time_major",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "unroll",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "reset_after",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/recurrent_layers/simple_rnn/",
+            "fun": "SimpleRNN",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "units",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "required": "yes",
+                "setting": "dropout",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "required": "yes",
+                "setting": "recurrent_dropout",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "return_sequences",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "return_state",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "go_backwards",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "stateful",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "unroll",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "ConvLSTM2D",
+            "type": "Module",
+            "description": "该函数具体解释请参考API:https://keras.io/api/layers/recurrent_layers/conv_lstm2d/",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "IntegerTuple2"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "recurrent_activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "unit_forget_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "required": "yes",
+                "setting": "dropout",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "required": "yes",
+                "setting": "recurrent_dropout",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "return_sequences",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "go_backwards",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "stateful",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "正则化层",
+        "type": "ModuleGroup",
+        "description": "该函数具体解释请参考API:https://keras.io/api/layers/preprocessing_layers/core_preprocessing_layers/",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "fun": "Dropout",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "rate",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "seed",
+                "type": "int"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "SpatialDropout1D",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "rate",
+                "type": "int",
+                "limit": "bet01"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "SpatialDropout2D",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "rate",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_first",
+                  "channels_last"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "SpatialDropout3D",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "rate",
+                "type": "int",
+                "limit": "bet01"
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_first",
+                  "channels_last"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "GaussianDropout",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "rate",
+                "type": "int",
+                "limit": "bet01"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "ActivityRegularization",
+            "params": [
+              {
+                "setting": "l1",
+                "type": "int",
+                "limit": "PositiveFloat"
+              },
+              {
+                "setting": "l2",
+                "type": "int",
+                "limit": "PositiveFloat"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "GaussianNoise",
+            "params": [
+              {
+                "setting": "stddev",
+                "type": "int",
+                "limit": "Float"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "ActivityRegularization",
+            "params": [
+              {
+                "setting": "l1",
+                "type": "int",
+                "limit": "PositiveFloat"
+              },
+              {
+                "setting": "l2",
+                "type": "int",
+                "limit": "PositiveFloat"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "AlphaDropout",
+            "params": [
+              {
+                "setting": "rate",
+                "type": "int"
+              },
+              {
+                "setting": "seed",
+                "type": "int"
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "转化层",
+        "type": "ModuleGroup",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "fun": "Reshape",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "target_shape",
+                "type": "tuple"
+              },
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Flatten",
+            "type": "Module",
+            "params": [
+              {
+                "required": "no",
+                "setting": "inputs",
+                "type": "tuple"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "RepeatVector",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "n",
+                "type": "PositiveInteger"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Permute",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "dims",
+                "type": "IntegerTuple"
+              },
+              {
+                "setting": "input_shape",
+                "type": "IntegerTuple"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Cropping1D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "cropping",
+                "description": "一个整数或者长度为2的整数元组",
+                "type": "Arbitrary"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Cropping2D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "cropping",
+                "description": "整数，或长度为2的整数元组，或一个包含两个长度为2的整数元组的元组",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_first",
+                  "channels_last"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Cropping3D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "cropping",
+                "description": "一个整数，或长度为3的整数元组，或一个包含三个长度为2的整数元组的元组",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_first",
+                  "channels_last"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "UpSampling1D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "size",
+                "description": "一个整数或者长度为2的整数元组",
+                "type": "Arbitrary"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "UpSampling2D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "size",
+                "type": "Arbitrary",
+                "description": "整数，或长度为2的整数元组，或一个包含两个长度为2的整数元组的元组"
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_first",
+                  "channels_last"
+                ]
+              },
+              {
+                "setting": "interpolation",
+                "type": "MultipleChoice",
+                "params": [
+                  "nearest",
+                  "bilinear"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "UpSampling3D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "size",
+                "description": "一个整数，或长度为3的整数元组，或一个包含三个长度为2的整数元组的元组",
+                "type": "PositiveInteger"
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_first",
+                  "channels_last"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "ZeroPadding1D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "padding",
+                "description": "一个整数或者长度为2的整数元组",
+                "type": "Arbitrary"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "ZeroPadding2D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "padding",
+                "description": "整数，或长度为2的整数元组，或一个包含两个长度为2的整数元组的元组",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_first",
+                  "channels_last"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "ZeroPadding3D",
+            "type": "Module",
+            "params": [
+              {
+                "required": "yes",
+                "setting": "padding",
+                "description": "一个整数，或长度为3的整数元组，或一个包含三个长度为2的整数元组的元组",
+                "type": "PositiveInteger"
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_first",
+                  "channels_last"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "本地连接层",
+        "type": "ModuleGroup",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "LocallyConnected1D",
+            "params": [
+              {
+                "setting": "input_shape",
+                "type": "int",
+                "limit": "IntegerTuple",
+                "description": "3D tensor with shape: (batch_size, steps, input_dim)"
+              },
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_last",
+                  "channels_first"
+                ]
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "type": "Module",
+            "fun": "LocallyConnected2D",
+            "params": [
+              {
+                "setting": "input_shape",
+                "description": "4D tensor with shape: (samples, channels, rows, cols) ",
+                "type": "Arbitrary"
+              },
+              {
+                "required": "yes",
+                "setting": "filters",
+                "type": "int",
+                "limit": "PositiveInteger"
+              },
+              {
+                "required": "yes",
+                "setting": "kernel_size",
+                "description": "整数，或长度为2的整数元组，或一个包含两个长度为2的整数元组的元组",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "use_bias",
+                "type": "MultipleChoice",
+                "params": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "setting": "strides",
+                "description": "整数，或长度为2的整数元组，或一个包含两个长度为2的整数元组的元组",
+                "type": "Arbitrary"
+              },
+              {
+                "setting": "padding",
+                "type": "MultipleChoice",
+                "params": [
+                  "valid",
+                  "same"
+                ]
+              },
+              {
+                "setting": "activation",
+                "type": "MultipleChoice",
+                "params": [
+                  "deserialize",
+                  "elu",
+                  "exponential",
+                  "get",
+                  "hard_sigmoid",
+                  "linear",
+                  "relu",
+                  "selu",
+                  "serialize",
+                  "sigmoid",
+                  "softmax",
+                  "softplus",
+                  "softsign",
+                  "swish",
+                  "tanh"
+                ]
+              },
+              {
+                "setting": "data_format",
+                "type": "MultipleChoice",
+                "params": [
+                  "channels_last",
+                  "channels_first"
+                ]
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      },
+      {
+        "name": "激活函数层",
+        "type": "ModuleGroup",
+        "params": [
+          {
+            "pipelineIndex": "3",
+            "fun": "ReLU",
+            "type": "Module",
+            "params": [
+              {
+                "setting": "max_value",
+                "type": "PositiveFloat"
+              },
+              {
+                "setting": "negative_slope",
+                "type": "PositiveFloat"
+              },
+              {
+                "setting": "threshold",
+                "type": "Float"
+              },
+              {
+                "setting": "input_shape",
+                "type": "IntegerTuple"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "Softmax",
+            "type": "Module",
+            "params": [
+              {
+                "setting": "input_shape",
+                "type": "IntegerTuple"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "LeakyReLU",
+            "type": "Module",
+            "params": [
+              {
+                "setting": "alpha",
+                "type": "PositiveFloat"
+              },
+              {
+                "setting": "input_shape",
+                "type": "IntegerTuple"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "PReLU",
+            "type": "Module",
+            "params": [
+              {
+                "setting": "input_shape",
+                "type": "IntegerTuple"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "ELU",
+            "type": "Module",
+            "params": [
+              {
+                "setting": "alpha",
+                "type": "PositiveFloat"
+              },
+              {
+                "setting": "input_shape",
+                "type": "IntegerTuple"
+              }
+            ],
+            "setparams": {}
+          },
+          {
+            "pipelineIndex": "3",
+            "fun": "ThresholdedReLU",
+            "type": "Module",
+            "params": [
+              {
+                "setting": "theta",
+                "type": "PositiveFloat"
+              },
+              {
+                "setting": "input_shape",
+                "type": "IntegerTuple"
+              }
+            ],
+            "setparams": {}
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "优化函数",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "fun": "SGD",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "momentum",
+            "type": "int",
+            "limit": "Non-negative"
+          },
+          {
+            "setting": "nesterov",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "RMSprop",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "rho",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "momentum",
+            "type": "int",
+            "limit": "Non-negative"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "centered",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Adam",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta1",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta2",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "amsgrad",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Adadelta",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "rho",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Adagrad",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "initial_accumulator_value",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Adamax",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta_1",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta_2",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Nadam",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta_1",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "beta_2",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epsilon",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "fun": "Ftrl",
+        "type": "Module",
+        "pipelineIndex": "4",
+        "params": [
+          {
+            "setting": "learning_rate",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "learning_rate_power",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "initial_accumulator_value",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "l1_regularization_strength",
+            "type": "int",
+            "limit": "Non-negative"
+          },
+          {
+            "setting": "l2_regularization_strength",
+            "type": "int",
+            "limit": "Non-negative"
+          },
+          {
+            "setting": "l2_shrinkage_regularization_strength",
+            "type": "int",
+            "limit": "Non-negative"
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "损失函数",
+    "fun": "loss",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "name": "概率损失",
+        "pipelineIndex": "5",
+        "fun": "Probabilistic losses",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "loss",
+            "type": "MultipleChoice",
+            "params": [
+              "BinaryCrossentropy",
+              "CategoricalCrossentropy",
+              "SparseCategoricalCrossentropy",
+              "Poisson",
+              "binary_crossentropy",
+              "categorical_crossentropy",
+              "sparse_categorical_crossentropy",
+              "poisson",
+              "KLDivergence",
+              "kl_divergence",
+              "softmax_cross_entropy_with_logits",
+              "sparse_softmax_cross_entropy_with_logits"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "name": "回归损失",
+        "pipelineIndex": "5",
+        "fun": "Regression losses",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "loss",
+            "type": "MultipleChoice",
+            "params": [
+              "MeanSquaredError",
+              "MeanAbsoluteError",
+              "MeanAbsolutePercentageError",
+              "MeanSquaredLogarithmicError",
+              "CosineSimilarity",
+              "mean_squared_error",
+              "mean_absolute_error",
+              "mean_absolute_percentage_error",
+              "mean_squared_logarithmic_error",
+              "cosine_similarity",
+              "Huber",
+              "LogCosh"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "name": "基于最大间隔的Hinge损失",
+        "pipelineIndex": "5",
+        "fun": "Hinge losses for 'maximum-margin' classification",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "loss",
+            "type": "MultipleChoice",
+            "params": [
+              "Hinge",
+              "SquaredHinge",
+              "CategoricalHinge",
+              "hinge",
+              "squared_hinge",
+              "categorical_hinge"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "评价函数",
+    "fun": "metrics",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "6",
+        "fun": "metrics",
+        "type": "Module",
+        "params": [
+          {
+            "required": "yes",
+            "setting": "metrics",
+            "type": "MultipleChoice",
+            "params": [
+              "accuracy",
+              "binary_accuracy",
+              "categorical_accuracy",
+              "top_k_categorical_accuracy",
+              "sparse_top_k_categorical_accuracy",
+              "binary_crossentropy",
+              "categorical_crossentropy",
+              "sparse_categorical_crossentropy",
+              "kullback_leibler_divergence",
+              "poisson",
+              "mean_squared_error",
+              "root_mean_squared_error",
+              "mean_absolute_error",
+              "mean_absolute_percentage_error",
+              "mean_squared_logarithmic_error",
+              "cosine_similarity",
+              "logcosh",
+              "hinge",
+              "squared_hinge",
+              "categorical_hinge"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "name": "训练函数",
+    "fun": "fit",
+    "type": "ModuleGroup",
+    "params": [
+      {
+        "pipelineIndex": "7",
+        "fun": "fit",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "batch_size",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epochs",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "steps_per_epoch",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "validation_split",
+            "description": "注意数据的兼容性.当输入为numpy矩阵等时,方可使用该参数.",
+            "type": "int",
+            "limit": "bet01"
+          },
+          {
+            "setting": "shuffle",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      },
+      {
+        "pipelineIndex": "7",
+        "fun": "fit_generator",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "batch_size",
+            "type": "int",
+            "limit": "PositiveFloat"
+          },
+          {
+            "setting": "epochs",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "steps_per_epoch",
+            "type": "int",
+            "limit": "PositiveInteger"
+          },
+          {
+            "setting": "shuffle",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "fun": "evaluate",
+    "name": "模型评估",
+    "type": "ModuleGroup",
+    "pipelineIndex": "8",
+    "params": [
+      {
+        "pipelineIndex": "8",
+        "fun": "evaluate",
+        "type": "Module",
+        "params": [
+          {
+            "setting": "batch_size",
+            "type": "int",
+            "limit": "PositiveFloat"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "fun": "save",
+    "name": "模型保存",
+    "type": "ModuleGroup",
+    "pipelineIndex": "9",
+    "params": [
+      {
+        "pipelineIndex": "9",
+        "fun": "save",
+        "type": "Module",
+        "params": [
+          {
+            "required": "yes",
+            "setting": "path",
+            "type": "UserFolderPath"
+          },
+          {
+            "setting": "overwrite",
+            "required": "no",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "setting": "include_optimizer",
+            "required": "no",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "setting": "name",
+            "description": "模型的名字，当save_format=h5时，将使用该参数",
+            "required": "yes",
+            "type": "Arbitrary"
+          },
+          {
+            "setting": "save_format",
+            "type": "MultipleChoice",
+            "params": [
+              "tf",
+              "h5"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  },
+  {
+    "fun": "visualization",
+    "name": "可视化",
+    "type": "ModuleGroup",
+    "pipelineIndex": "10",
+    "params": [
+      {
+        "pipelineIndex": "10",
+        "fun": "visualization",
+        "type": "Module",
+        "params": [
+          {
+            "required": "yes",
+            "setting": "logpath",
+            "type": "Arbitrary",
+            "description": "输入一个文件夹,没有则创建"
+          },
+          {
+            "required": "no",
+            "setting": "write_graph",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "setting": "write_grads",
+            "required": "no",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "setting": "write_images",
+            "required": "no",
+            "type": "MultipleChoice",
+            "params": [
+              "True",
+              "False"
+            ]
+          }
+        ],
+        "setparams": {}
+      }
+    ]
+  }
+]
